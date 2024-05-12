@@ -36,6 +36,6 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
-    "fast-xml-parser": "^3.19.0"
+    "fast-xml-parser": "^4.3.5"
   }
 }

@@ -1,8 +1,8 @@
-import parser from 'fast-xml-parser';
-import {CardModel} from './cardModel';
-import {Deck} from './deck';
+import { XMLParser, XMLValidator } from "fast-xml-parser";
+import { CardModel } from "./cardModel";
+import { Deck } from "./deck";
 
-const _commanderAnnotation = '16777728';
+const _commanderAnnotation = "16777728";
 
 export class MTGO extends Deck {
   constructor(xml, logError = true) {
@@ -10,20 +10,20 @@ export class MTGO extends Deck {
 
     xml = xml.trim();
 
-    const output = parser.validate(xml);
+    const output = XMLValidator.validate(xml);
 
     this.valid = output === true;
 
     if (this.valid) {
-      const parsed = parser.parse(xml, {
-        attributeNamePrefix: '',
-        ignoreAttributes : false,
+      const parsed = XMLParser.parse(xml, {
+        attributeNamePrefix: "",
+        ignoreAttributes: false,
       });
 
-      parsed.Deck.Cards.forEach(card => {
+      parsed.Deck.Cards.forEach((card) => {
         if (card.Annotation === _commanderAnnotation) {
           this.commander = new CardModel(card);
-        } else if (card.Sideboard === 'true') {
+        } else if (card.Sideboard === "true") {
           this.sideboard.push(new CardModel(card));
         } else {
           this.deck.push(new CardModel(card));
